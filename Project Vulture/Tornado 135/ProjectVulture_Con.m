@@ -11,29 +11,23 @@ function [g,h] = ProjectVulture_Con(X)
 %          X(6) = SwInner
 %          X(7) = SwOuter
 %          X(8) = dihedralOuter
+%          X(9) = alpha_star
 % Output:
 %   g  : inequality constraint values
 %   h  : equality constraint values
 
-% Deconstruct input vector for easy reading
-Croot   = X(1);
-bInner  = X(2);
-bOuter  = X(3);
-tInner  = X(4);
-tOuter  = X(5);
-SwInner = X(6);
-SwOuter = X(7);
-dihedralOuter = X(8);
+%% Constants for the solver
+ProjectVulture_Inputs;
 
-% Analyze the current design
-ProjectVulture_Analyzer;
+%% Analyze the design
+mTotal =  ProjectVulture_Weight(X);
+results = ProjectVulture_Aero(X);
 
 % g - inequality constraints
 g(1) = results.Cm_a;
 
 % h-vector
-
-h = [];
+h(1) = (mTotal*g)/results.L;
 
 % % Nominal valve area:
 % Av = Dv^2*pi/4;
