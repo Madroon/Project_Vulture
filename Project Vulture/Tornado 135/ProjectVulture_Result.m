@@ -29,10 +29,9 @@ SwInner = X(6);
 SwOuter = X(7);
 dihedralOuter = X(8);
 state.alpha = X(9);
+mWing = X(10);
 
-
-
-%% Calculate the volume (weight)
+%% Calculate the volume
 
 % Open the airfoil file
 airfoilPoints = importdata(['aircraft/airfoil/' airfoil_wing],' ',3);
@@ -56,7 +55,9 @@ vWing = bOuter * 2 * ((Atrans + Atip)/2);
 
 % Total volume
 vTotal = vFuselage + vWing;
-mTotal = vTotal * rho;
+
+%% Calculate weight
+mTotal = ProjectVulture_Weight(X);
 
 %% Dimension calculations
 Sinner = ((Croot + Ctrans)/2) * bInner;
@@ -104,16 +105,15 @@ geo.meshtype=    [1 1];                 %Type of mesh to be used
 %% reposition the cog and reference
 [lattice,ref]=fLattice_setup2(geo,state,latticetype);  
 ACx = ref.mac_pos(1) + ACx * ref.C_mac;
-COG = ref.mac_pos(1) + COG * ref.C_mac;
+COG = ((ref.mac_pos(1) + COG * ref.C_mac)*mWing + mPayload*xPayload*Croot)/(mWing + mPayload);
 
 geo.ref_point=    [ACx 0 0];        %Position of the reference point in the aircraft coordinate system, moments are taken around this point
 geo.CG=           [COG 0 0];        %Position of the center of gravity in the aircraft coordinate system. Rotations are made about this point
 
-%% Determine required lift coefficient
-CL_target = (2*mTotal*g)/(state.rho*(state.AS^2)*Stotal);
-
-%% Run Tornado
-[results,alpha]=fFindAlphaAtCL(geo,state,latticetype,CL_target);
+%% computing induced drag
+results = [];
+[results]=solver9(results,state,geo,lattice,ref);
+[results]=coeff_create3(results,lattice,state,ref,geo);
     
 %% Generate the Lattice
 [lattice,ref]=fLattice_setup2(geo,state,latticetype);
@@ -125,9 +125,14 @@ geometryplot(lattice,geo,ref);
 CD_total = results.CD + CD_viscous;
 glide = results.CL / CD_total;
 
-disp(['Weight equals: ' num2str(mTotal) 'kg']);
+disp(['Payload weight     : ' num2str(mPayload) 'kg']);
+disp(['Wing weight        : ' num2str(mTotal - mPayload) 'kg']);
+disp(['Total Weight equals: ' num2str(mTotal) 'kg']);
 disp(['Glide ratio  : ' num2str(glide)]);
 disp(['CL : ' num2str(results.CL)]);
 disp(['CD : ' num2str(CD_total)]);
+disp(['Lift [N]: ' num2str(results.L)]);
+disp(['W [N]   : ' num2str(mTotal*g)]);
+
 
 end

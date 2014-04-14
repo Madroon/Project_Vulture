@@ -51,7 +51,7 @@ geo.meshtype=    [1 1];                 %Type of mesh to be used
 %% reposition the cog and reference
 [lattice,ref]=fLattice_setup2(geo,state,latticetype);  
 ACx = ref.mac_pos(1) + ACx * ref.C_mac;
-COG = ((ref.mac_pos(1) + COG * ref.C_mac)*mWing + mPayload*xPayload)/(mWing + mPayload);
+COG = ((ref.mac_pos(1) + COG * ref.C_mac)*mWing + mPayload*xPayload*Croot)/(mWing + mPayload);
 
 geo.ref_point=    [ACx 0 0];        %Position of the reference point in the aircraft coordinate system, moments are taken around this point
 geo.CG=           [COG 0 0];        %Position of the center of gravity in the aircraft coordinate system. Rotations are made about this point

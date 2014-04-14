@@ -15,13 +15,14 @@ X0 = ones(10,1);
 
 %% Bounds of the problem
 %       Croot bInner  bOuter  tInner  tOuter   SwInner  SwOuter dihedralOuter
-lb = [  0.2,  0.2,    0.5,    0.3,    0.1,     0.1,     0.1,    0.8  1   0.1];
-ub = [  2.0,  1.0,    1.0,    1.0,    1.0,     2.0,     1.0,    1.0  12  3.0];
+lb = [  0.2,  0.1,    0.1,    0.3,    0.1,     0.1,     0.1,    1.0  1   0.1];
+ub = [  2.0,  1.5,    0.3,    1.0,    1.0,     0.6,     0.7,    1.0  6  5.0];
 
 %% Set up the options
 options = optimset('Display','iter');
 options = optimset(options,'Algorithm', 'interior-point');
-options = optimset(options,'DiffMinChange', 0.001);
+options = optimset(options,'DiffMinChange', 0.1);
+options = optimset(options,'TolFun',1e-4);
 
 %% Run the optimizer
 
