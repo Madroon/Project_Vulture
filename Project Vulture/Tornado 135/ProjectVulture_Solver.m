@@ -13,6 +13,7 @@
  %          X(7) = SwOuter
  %          X(8) = dihedralOuter
  %          X(9) = alpha_star
+ %          X(10)= mWing
  % Output:  F scalar objective function
 
  %% Input constants
@@ -28,8 +29,8 @@ results = ProjectVulture_Aero(X);
 glideRatio = (results.CD+CD_viscous) / results.CL;
 
 %% Calculate objective function
-mass = abs(1 - (mTotal / mRef));
-glide = abs(1 - ((glideRatio / glideRef)));
+mass = (mTotal / mRef);
+glide = ((glideRatio / glideRef));
 F = w1*glide + w2 * mass;
 
 end

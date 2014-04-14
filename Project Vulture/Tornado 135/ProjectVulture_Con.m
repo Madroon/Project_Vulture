@@ -1,4 +1,4 @@
-function [g,h] = ProjectVulture_Con(X)  
+function [C_in,C_eq] = ProjectVulture_Con(X)  
 % Computation of scaled constraints
 % Design variables not scaled.
 % Input:
@@ -12,6 +12,7 @@ function [g,h] = ProjectVulture_Con(X)
 %          X(7) = SwOuter
 %          X(8) = dihedralOuter
 %          X(9) = alpha_star
+%          X(10)= mWing
 % Output:
 %   g  : inequality constraint values
 %   h  : equality constraint values
@@ -23,11 +24,16 @@ ProjectVulture_Inputs;
 mTotal =  ProjectVulture_Weight(X);
 results = ProjectVulture_Aero(X);
 
+%% Remove scaling
+X = X.*I;
+
 % g - inequality constraints
-g(1) = results.Cm_a;
+C_in(1) = results.Cm_a;
+%C_in = [];
 
 % h-vector
-h(1) = (mTotal*g)/results.L;
+C_eq(1) = (mTotal*g)-results.L;
+C_eq(2) = X(10)-(mTotal - mPayload);
 
 % % Nominal valve area:
 % Av = Dv^2*pi/4;
