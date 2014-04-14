@@ -6,15 +6,21 @@
 airfoil_wing = 'EPP662.DAT';
 
 % Weights and reference for the multi-objective function
-w1 = 1;
-w2 = 1;
-mRef = 1.0;
-glideRef = 1/8;
+w1 = 4; %importance of glide ratio
+w2 = 1; %importance of weight
+mRef = 2.5;
+glideRef = 1/10;
 
 % Weight of the aircraft
+<<<<<<< HEAD
 rho = 1000; % [kg/m^3] 'density' of the volume, note density styrofoam = 1000 [kg/m^3]
 mPayload = 0.3; % kg payload
 xPayload = 0.25; % payload position measured from the nose times root chord
+=======
+rho = 1100; % [kg/m^3] 'density' of the volume, note density styrofoam = 1000 [kg/m^3]
+mPayload = 2.50; % kg payload
+xPayload = 0.25; % payload position measured from the nose % of root chord
+>>>>>>> d42bc0c2534d262441f076a60bec509593393763
 
 % Gravitational constant
 g = 9.816;
@@ -32,18 +38,22 @@ CD_viscous = 0.02;
 %% Scalings/Initial design point
 I(1) = 1.0;
 I(2) = 1.0;
-I(3) = 0.1;
+I(3) = 1.0;
 I(4) = 1.0;
 I(5) = 1.0;
-I(6) = 30*pi/180;
-I(7) = 50*pi/180;
+I(6) = 90*pi/180;
+I(7) = 90*pi/180;
 I(8) = 90*pi/180;
 I(9) = 1*pi/180; 
 I(10) = 1.0;
 I = I';
 
 %% Define the state %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+<<<<<<< HEAD
 state.AS=       15;        %Airspeed m/s
+=======
+state.AS=       25;        %Airspeed m/s
+>>>>>>> d42bc0c2534d262441f076a60bec509593393763
 state.betha=       0;         %Angle of sideslip, radians
 state.P=       0;         %Rollrate, rad/s
 state.Q=       0;         %pitchrate, rad/s
