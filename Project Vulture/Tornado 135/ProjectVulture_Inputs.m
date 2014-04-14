@@ -13,8 +13,8 @@ glideRef = 1/8;
 
 % Weight of the aircraft
 rho = 1000; % [kg/m^3] 'density' of the volume, note density styrofoam = 1000 [kg/m^3]
-mPayload = 0.3; % 300 gram payload
-xPayload = 0.1; % payload position measured from the nose
+mPayload = 0.3; % kg payload
+xPayload = 0.25; % payload position measured from the nose times root chord
 
 % Gravitational constant
 g = 9.816;
@@ -43,7 +43,7 @@ I(10) = 1.0;
 I = I';
 
 %% Define the state %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-state.AS=       20;        %Airspeed m/s
+state.AS=       15;        %Airspeed m/s
 state.betha=       0;         %Angle of sideslip, radians
 state.P=       0;         %Rollrate, rad/s
 state.Q=       0;         %pitchrate, rad/s
